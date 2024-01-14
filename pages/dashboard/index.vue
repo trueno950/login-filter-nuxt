@@ -1,4 +1,38 @@
 <template>
+    <Navbar />
+    <div class="flex items-center rounded-full bg-white p-1">
+        <button class="text-xs font-semibold text-gray-600 mx-1 border-b-2 border-green-500">Todo</button>
+        <button
+            class="text-xs font-semibold text-gray-600 mx-1 border-b-2 border-transparent focus:border-green-500">Hoy</button>
+        <button
+            class="text-xs font-semibold text-gray-600 mx-1 border-b-2 border-transparent focus:border-green-500">Mes</button>
+        <button
+            class="text-xs font-semibold text-gray-600 mx-1 border-b-2 border-transparent focus:border-green-500">Año</button>
+        <div class="flex flex-col items-center mx-1">
+            <span class="text-xs font-semibold text-gray-600">.</span>
+            <span class="text-xs font-semibold text-gray-600">.</span>
+            <span class="text-xs font-semibold text-gray-600">.</span>
+        </div>
+    </div>
+    <div class="rounded-lg overflow-hidden bg-white shadow-md p-4 max-w-xs">
+        <div class="flex items-center">
+            <div>
+                <div class="flex-shrink-0 mr-4">
+                    <!-- Puedes reemplazar el icono con tu propio código o un ícono de tu elección -->
+                    <svg class="h-8 w-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <!-- Icono de ejemplo (un círculo) -->
+                        <circle cx="12" cy="12" r="10" stroke-width="2" />
+                    </svg>
+                </div>
+                <p class="text-base font-normal text-gray-800">Título</p>
+                <p class="text-lg font-bold text-black">80%</p>
+            </div>
+        </div>
+    </div>
+
+
+
     <!-- component -->
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/gh/Loopple/loopple-public-assets@main/riva-dashboard-tailwind/riva-dashboard.css">

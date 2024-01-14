@@ -21,9 +21,6 @@
 </template>
   
 <script setup>
-definePageMeta({
-    layout: 'accounts'
-})
 import { ref, computed } from 'vue';
 const { sendPasswordResetEmail } = useAuthStore();
 const { loading } = storeToRefs(useAuthStore());

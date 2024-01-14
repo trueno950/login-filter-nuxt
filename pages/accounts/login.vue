@@ -34,9 +34,6 @@
 </template>
 
 <script setup>
-definePageMeta({
-    layout: 'accounts'
-})
 import { ref, computed } from 'vue';
 const { authenticateUser } = useAuthStore();
 const { authenticated, loading } = storeToRefs(useAuthStore());

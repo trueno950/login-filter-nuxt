@@ -56,7 +56,7 @@ export const useAuthStore = defineStore("auth", {
         throw new Error("Error al registrar la cuenta.");
       }
     },
-    logOutUser() {
+    logoutUser() {
       const token = useCookie("token");
       this.authenticated = false;
       token.value = null;
