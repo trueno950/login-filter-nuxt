@@ -1,25 +1,25 @@
-if (!process.env.NUXT_AUTH_PASSWORD) {
-  console.warn('Security warning: NUXT_AUTH_PASSWORD is not set. Using an example value. Please set it otherwise your session is unsecure!');
-  process.env.NUXT_AUTH_PASSWORD = 'secretsecretsecretsecretsecretsecretsecret'
-}
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  css: ['~/assets/css/main.css'],
+  modules: ["@pinia/nuxt", "@nuxt/image",],
+  pinia: {
+    storesDirs: ['./store/**'],
+  },
+  css: ["~/assets/css/main.css", "vue-toast-notification/dist/theme-default.css"],
   postcss: {
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
     },
   },
-  extends: [
-    './auth',
-  ],
-  modules: [
-    'nuxt-primevue'
-  ],
-  primevue: {
-      unstyled: true
-  },
-})
+  imports: {
+    dirs: [
+      // Scan top-level modules
+      'composables',
+      // ... or scan modules nested one level deep with a specific name and file extension
+      'composables/*/index.{ts,js,mjs,mts}',
+      // ... or scan all modules within given directory
+      'composables/**'
+    ]
+  }
+});
