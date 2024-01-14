@@ -21,7 +21,7 @@ export default defineNuxtRouteMiddleware((to) => {
     !token.value &&
     to?.name !== "accounts-login" &&
     to?.name !== "accounts-register" &&
-    to?.name !== "accounts-password-reset"
+    to?.name !== "accounts-reset"
   ) {
     abortNavigation();
     return navigateTo("/accounts/login");
