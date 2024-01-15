@@ -2,9 +2,8 @@
     <div class="bg-white shadow-inner flex items-center fixed w-full top-0 z-10">
         <div class="container mx-auto flex items-center justify-between">
             <div>
-                <NuxtImg src="/logo-dimex.png" width="90" height="40"/>
+                <NuxtImg src="/logo-dimex.png" width="90" height="40" />
             </div>
-
             <div class="flex items-center space-x-4">
                 <NuxtLink to="/dashboard" class="my-link text-md">Dashboard</NuxtLink>
                 <NuxtLink to="/configuration" class="my-link text-md flex items-center gap-1">
@@ -19,13 +18,14 @@
                         <NuxtImg src="/logo.svg" alt="Foto de perfil" class="object-cover w-full h-full" />
                     </div>
                     <div>
-                        <p class="text-gray-700 font-semibold">Nombre de Usuario</p>
+                        <p class="text-gray-700 font-semibold">{{`${infoProfile.firstName} ${infoProfile.lastName}`}}</p>
                         <p class="text-sm text-gray-500">Admin</p>
                     </div>
                 </div>
 
                 <Menu>
-                    <MenuButton class="relative z-10 block p-2 focus:outline-none text-3xl text-gray-500">
+                    <MenuButton class="relative z-10 block p-2 focus:outline-none text-3xl text-gray-500"
+                        id="menu-settings">
                         <Icon name="mdi:chevron-down" />
                     </MenuButton>
                     <MenuItems class="absolute right-0 py-2 mt-10 w-48 bg-white rounded-md shadow-xl z-50">
@@ -52,9 +52,15 @@
 </template>
 
 <script setup>
-import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
+import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
+
 const { logoutUser } = useAuthStore();
+const useUser = useUserStore()
+const { infoProfile } = useUser
+const token = useCookie('token');
+await useUser.getInfoProfile({token: token.value});
 </script>
+
 
 <style>
 .my-link {

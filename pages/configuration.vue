@@ -5,6 +5,9 @@
 </template>
 
 <script setup>
+useHead({
+    title: 'Configuration',
+})
 definePageMeta({
     layout: 'default'
 })

@@ -4,17 +4,18 @@ interface UserPayloadInterface {
   token: string;
 }
 
-export const useAuthStore = defineStore("auth", {
+export const useUserStore = defineStore("user", {
   state: () => ({
-    infoProfile: Object,
+    infoProfile: {},
     loading: false,
   }),
   actions: {
     async getInfoProfile({ token }: UserPayloadInterface) {
+      this.loading = true;
       const { data, pending }: any = await useFetch(
         "https://dummyjson.com/auth/me",
         {
-          method: "post",
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,

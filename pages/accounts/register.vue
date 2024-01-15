@@ -33,6 +33,9 @@
 </template>
 
 <script setup>
+useHead({
+    title: 'Register',
+})
 definePageMeta({
     layout: false,
 });

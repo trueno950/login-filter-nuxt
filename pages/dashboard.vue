@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:flex md:justify-between px-8 pt-8 xl:gap-9">
-            <template v-for="(item, index) in dataPercetage" :key="index">
+            <template v-for="(item, index) in dataPercetage || []" :key="index">
                 <CardPercentage :size="item.size" :icon="item.icon" :title="item.title"
                     :showPercentage="item.showPercentage" :type="item.type" :percentage="item.percentage"
                     :subtitle="item.subtitle" :showSecondaryPercentage="item.showSecondaryPercentage"
@@ -81,12 +81,12 @@
                                             <p class="text-left">
                                                 Progreso
                                             <Menu>
-                                                <MenuButton class="focus:outline-none text-2xl text-gray-500">
+                                                <MenuButton class="focus:outline-none text-2xl text-gray-500" id="menu-progress">
                                                     <Icon name="mdi:chevron-down" />
                                                 </MenuButton>
                                                 <MenuItems
                                                     class="absolute mt-0 py-2 w-48 bg-white rounded-md shadow-xl z-50">
-                                                    <MenuItem v-for="(item, index) in filterPercentage" :key="index">
+                                                    <MenuItem v-for="(item, index) in filterPercentage || []" :key="index">
                                                     <span
                                                         class="block px-4 py-2 text-xs text-gray-700 hover:bg-blue-500 hover:text-white">{{
                                                             item.label }}</span>
@@ -99,12 +99,12 @@
                                             <p class="text-left">
                                                 Estatus
                                             <Menu>
-                                                <MenuButton class="focus:outline-none text-2xl text-gray-500">
+                                                <MenuButton class="focus:outline-none text-2xl text-gray-500" id="menu-status">
                                                     <Icon name="mdi:chevron-down" />
                                                 </MenuButton>
                                                 <MenuItems
                                                     class="absolute mt-0 py-2 w-48 bg-white rounded-md shadow-xl z-50">
-                                                    <MenuItem v-for="(item, index) in filterStatus" :key="index">
+                                                    <MenuItem v-for="(item, index) in filterStatus || []" :key="index">
                                                     <div class="p-2">
                                                         <div
                                                             :class="`rounded-md flex justify-center p-1 h-7 text-${item.color}-500 hover:bg-blue-100 bg-green-50 items-center gap-2 px-2`">
@@ -141,18 +141,14 @@
                                                 <span class="text-xs">No acepta ofertas</span>
                                             </div>
                                         </td>
-                                        <td class="py-2 ">
-                                            <button
-                                                class="ml-auto relative text-secondary-dark bg-light-dark hover:text-primary flex items-center h-[25px] w-[25px] text-base font-medium leading-normal text-center align-middle cursor-pointer rounded-2xl transition-colors duration-200 ease-in-out shadow-none border-0 justify-center"
-                                                @click="openModal" ref="cancelButtonRef">
-                                                <span
-                                                    class="flex items-center justify-center p-0 m-0 leading-none shrink-0 ">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                        stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                                                    </svg>
-                                                </span>
+                                        <td class="py-2">
+                                            <button class="ml-auto text-2xl text-gray-400" @click="openModal"
+                                                ref="cancelButtonRef">
+                                                <Icon name="heroicons:eye" />
+                                            </button>
+                                            <button class="ml-auto text-2xl text-gray-400" @click="openModal"
+                                                ref="cancelButtonRef">
+                                                <Icon name="heroicons:pencil-square" />
                                             </button>
                                         </td>
                                     </tr>
@@ -321,6 +317,9 @@
 </template>
 
 <script setup>
+useHead({
+    title: 'Dashboard',
+})
 definePageMeta({
     layout: 'default'
 })
@@ -356,6 +355,7 @@ const dataPercetage = [
         "type": "info",
         "percentage": "19%",
         "subtitle": "",
+        "showSecondaryPercentage": false,
     },
     {
         "size": "w-full md:w-[70%]",
@@ -365,6 +365,7 @@ const dataPercetage = [
         "type": "warning",
         "percentage": "20%",
         "subtitle": "",
+        "showSecondaryPercentage": false,
     },
     {
         "size": "w-full md:w-[70%]",

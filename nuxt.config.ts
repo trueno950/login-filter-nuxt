@@ -1,9 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+  devtools: { enabled: false },
+  ssr: true,
   modules: ["@pinia/nuxt", "@nuxt/image","nuxt-icon"],
   pinia: {
-    storesDirs: ['./store/**'],
+    storesDirs: ['./stores/**'],
   },
   css: ["~/assets/css/main.css", "vue-toast-notification/dist/theme-default.css"],
   postcss: {

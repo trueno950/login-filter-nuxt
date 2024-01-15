@@ -21,6 +21,9 @@
 </template>
   
 <script setup>
+useHead({
+    title: 'Reset',
+})
 definePageMeta({
     layout: false,
 });
