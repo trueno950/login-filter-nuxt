@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-gray-100 mt-14">
+    <div class="bg-gray-50 mt-14">
         <div class="px-9 pt-5 flex flex-col items-stretch flex-wrap bg-transparent">
             <h1 class="flex flex-col items-start justify-center font-medium text-4xl text-dark">
                 <span class="mr-3 font-semibold text-dark">Dashboard</span>
@@ -23,7 +23,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex justify-between px-8 pt-8 gap-9">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:flex md:justify-between px-8 pt-8 xl:gap-9">
             <template v-for="(item, index) in dataPercetage" :key="index">
                 <CardPercentage :size="item.size" :icon="item.icon" :title="item.title"
                     :showPercentage="item.showPercentage" :type="item.type" :percentage="item.percentage"
@@ -32,42 +32,97 @@
             </template>
         </div>
 
-        <div class="w-full max-w-full px-3 mb-6  mx-auto">
+        <div class="w-full max-w-full px-2 mb-6  mx-auto">
             <div
                 class="relative flex-[1_auto] flex flex-col break-words min-w-0 bg-clip-border rounded-[.95rem] bg-white m-5">
                 <div
                     class="relative flex flex-col min-w-0 break-words border border-dashed bg-clip-border rounded-2xl border-stone-200 bg-light/30">
-                    <div class="px-9 pt-5 flex justify-between items-stretch flex-wrap min-h-[70px] pb-0 bg-transparent">
+                    <div
+                        class="px-12 flex flex-col justify-between items-stretch flex-wrap min-h-[70px] pb-0 bg-transparent">
                         <h3 class="flex flex-col items-start justify-center m-2 ml-0 font-medium text-xl/tight text-dark">
                             <span class="mr-3 font-semibold text-dark">Mis evaluaciones</span>
                         </h3>
+                        <div class="sm:w-[30%] w-full">
+                            <div class="relative">
+                                <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                                    <Icon name="heroicons:magnifying-glass" />
+                                </div>
+                                <input type="text" id="input-group-1"
+                                    class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Buscar">
+                            </div>
+                        </div>
                     </div>
-                    <div class="flex-auto block py-8 pt-6 px-9">
+                    <div class="flex-auto block px-12">
                         <div class="overflow-x-auto">
                             <table class="w-full my-0 align-middle text-dark border-neutral-200">
-                                <thead class="align-bottom">
-                                    <tr class="font-semibold text-sm text-gray-800">
-                                        <th class="min-w-[10%]">
-                                            <p class="text-left">Fecha</p>
+                                <thead class="align-bottom border-b-2 py-2">
+                                    <tr class="font-semibold text-gray-600 text-xs">
+                                        <th class="min-w-[10%] pb-3">
+                                            <p class="text-left">
+                                                Fecha
+                                                <span class="ml-2">
+                                                    <Icon name="heroicons:arrows-up-down-16-solid" />
+                                                </span>
+                                            </p>
                                         </th>
-                                        <th class="min-w-[30%]">
-                                            <p class="text-left">Nombre</p>
+                                        <th class="min-w-[30%] pb-3">
+                                            <p class="text-left">
+                                                Nombre
+                                                <span class="ml-2">
+                                                    <Icon name="heroicons:arrows-up-down-16-solid" />
+                                                </span>
+                                            </p>
                                         </th>
-                                        <th class="pr-12 min-w-[10%]">
+                                        <th class="pr-12 min-w-[10%] pb-3">
                                             <p class="text-left">Celular</p>
                                         </th>
-                                        <th class="pr-12 min-w-[20%]">
-                                            <p class="text-left">Progreso</p>
+                                        <th class="pr-12 min-w-[25%] pb-3">
+                                            <p class="text-left">
+                                                Progreso
+                                            <Menu>
+                                                <MenuButton class="focus:outline-none text-2xl text-gray-500">
+                                                    <Icon name="mdi:chevron-down" />
+                                                </MenuButton>
+                                                <MenuItems
+                                                    class="absolute mt-0 py-2 w-48 bg-white rounded-md shadow-xl z-50">
+                                                    <MenuItem v-for="(item, index) in filterPercentage" :key="index">
+                                                    <span
+                                                        class="block px-4 py-2 text-xs text-gray-700 hover:bg-blue-500 hover:text-white">{{
+                                                            item.label }}</span>
+                                                    </MenuItem>
+                                                </MenuItems>
+                                            </Menu>
+                                            </p>
                                         </th>
-                                        <th class="min-w-[20%]">
-                                            <p class="text-left">Estatus</p>
+                                        <th class="min-w-[20%] pb-3">
+                                            <p class="text-left">
+                                                Estatus
+                                            <Menu>
+                                                <MenuButton class="focus:outline-none text-2xl text-gray-500">
+                                                    <Icon name="mdi:chevron-down" />
+                                                </MenuButton>
+                                                <MenuItems
+                                                    class="absolute mt-0 py-2 w-48 bg-white rounded-md shadow-xl z-50">
+                                                    <MenuItem v-for="(item, index) in filterStatus" :key="index">
+                                                    <div class="p-2">
+                                                        <div
+                                                            :class="`rounded-md flex justify-center p-1 h-7 text-${item.color}-500 hover:bg-blue-100 bg-green-50 items-center gap-2 px-2`">
+                                                            <Icon name="mdi:account-check-outline" />
+                                                            <span class="text-xs">{{ item.label }}</span>
+                                                        </div>
+                                                    </div>
+                                                    </MenuItem>
+                                                </MenuItems>
+                                            </Menu>
+                                            </p>
                                         </th>
-                                        <th class="min-w-[10%]"></th>
+                                        <th class="min-w-[5%] pb-3"></th>
                                     </tr>
                                 </thead>
                                 <tbody v-for="(item, index) in [0, 1, 2, 3, 4]" :key="index">
                                     <tr class="">
-                                        <td class="py-2 ">
+                                        <td class="py-3 ">
                                             <span class="font-semibold text-gray-600 text-xs">05/07/2024</span>
                                         </td>
                                         <td class="py-2 ">
@@ -121,7 +176,7 @@
                             enter-to="opacity-100 scale-100" leave="duration-200 ease-in" leave-from="opacity-100 scale-100"
                             leave-to="opacity-0 scale-95">
                             <DialogPanel
-                                class="w-full max-w-[75%] transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                                class="w-full sm:w-[75%] transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                                 <TabGroup>
                                     <TabList class="absolute left-0 top-0 flex gap-4 w-full bg-gray-50 items-center">
                                         <Tab v-slot="{ selected }">
@@ -158,87 +213,87 @@
                                                 </div>
                                             </div>
                                             <section>
-                                                <div class="flex flex-row gap-20">
+                                                <div class="grid grid-cols-1 gap-2 md:flex md:flex-row md:gap-20">
                                                     <div>
                                                         <div class="flex flex-row gap-4 mb-2
                                                         ">
-                                                            <h2 class="text-gray-500 w-36">Nombre</h2>
+                                                            <h2 class="text-gray-500 w-[8em]">Nombre</h2>
                                                             <h3 class="text-gray-700">María Eugenia Rodriguez Rendon</h3>
                                                         </div>
                                                         <div class="flex flex-row gap-4 mb-2
                                                         ">
-                                                            <h2 class="text-gray-500 w-36">Fec nacimiento</h2>
+                                                            <h2 class="text-gray-500 w-[8em]">Fec nacimiento</h2>
                                                             <h3 class="text-gray-700">{{ true }}</h3>
                                                         </div>
                                                         <div class="flex flex-row gap-4 mb-2
                                                         ">
-                                                            <h2 class="text-gray-500 w-36">RFC</h2>
+                                                            <h2 class="text-gray-500 w-[8em]">RFC</h2>
                                                             <h3 class="text-gray-700">{{ true }}</h3>
                                                         </div>
                                                     </div>
                                                     <div>
                                                         <div class="flex flex-row mb-2
                                                         ">
-                                                            <h2 class="text-gray-500 w-36">Celular</h2>
-                                                            <h3 class="text-gray-700 -ml-8">+529911098469</h3>
+                                                            <h2 class="text-gray-500 w-[8em]">Celular</h2>
+                                                            <h3 class="text-gray-700">+529911098469</h3>
                                                         </div>
                                                         <div class="flex flex-row mb-2
                                                         ">
-                                                            <h2 class="text-gray-500 w-36">Correo</h2>
-                                                            <h3 class="text-gray-700 -ml-8">{{ true }}</h3>
+                                                            <h2 class="text-gray-500 w-[8em]">Correo</h2>
+                                                            <h3 class="text-gray-700">{{ true }}</h3>
                                                         </div>
                                                         <div class="flex flex-row mb-2
                                                         ">
-                                                            <h2 class="text-gray-500 w-36">Dirección</h2>
-                                                            <h3 class="text-gray-700 -ml-8">{{ true }}</h3>
+                                                            <h2 class="text-gray-500 w-[8em]">Dirección</h2>
+                                                            <h3 class="text-gray-700">{{ true }}</h3>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <hr
                                                     class="my-6 h-0.5 border-t-0 bg-neutral-200 opacity-100 dark:opacity-50" />
-                                                <div class="flex flex-row gap-20">
+                                                <div class="grid grid-cols-1 gap-2 md:flex md:flex-row md:gap-20">
                                                     <div>
                                                         <div class="flex flex-row gap-4 mb-2
                                                         ">
-                                                            <h2 class="text-gray-500 w-36">Producto</h2>
+                                                            <h2 class="text-gray-500 w-[8em]">Producto</h2>
                                                             <h3 class="text-gray-700">María Eugenia Rodriguez Rendon</h3>
                                                         </div>
                                                         <div class="flex flex-row gap-4 mb-2
                                                         ">
-                                                            <h2 class="text-gray-500 w-36">Sub Producto</h2>
+                                                            <h2 class="text-gray-500 w-[8em]">Sub Producto</h2>
                                                             <h3 class="text-gray-700">{{ true }}</h3>
                                                         </div>
                                                         <div class="flex flex-row gap-4 mb-2
                                                         ">
-                                                            <h2 class="text-gray-500 w-36">Tipo Nómina</h2>
+                                                            <h2 class="text-gray-500 w-[8em]">Tipo Nómina</h2>
                                                             <h3 class="text-gray-700">{{ true }}</h3>
                                                         </div>
                                                         <div class="flex flex-row gap-4 mb-2
                                                         ">
-                                                            <h2 class="text-gray-500 w-36">Operación</h2>
+                                                            <h2 class="text-gray-500 w-[8em]">Operación</h2>
                                                             <h3 class="text-gray-700">{{ true }}</h3>
                                                         </div>
                                                     </div>
                                                     <div>
                                                         <div class="flex flex-row mb-2
                                                         ">
-                                                            <h2 class="text-gray-500 w-36">Estado</h2>
-                                                            <h3 class="text-gray-700 -ml-8">+529911098469</h3>
+                                                            <h2 class="text-gray-500 w-[8em]">Estado</h2>
+                                                            <h3 class="text-gray-700">+529911098469</h3>
                                                         </div>
                                                         <div class="flex flex-row mb-2
                                                         ">
-                                                            <h2 class="text-gray-500 w-36">Banco</h2>
-                                                            <h3 class="text-gray-700 -ml-8">{{ true }}</h3>
+                                                            <h2 class="text-gray-500 w-[8em]">Banco</h2>
+                                                            <h3 class="text-gray-700">{{ true }}</h3>
                                                         </div>
                                                         <div class="flex flex-row mb-2
                                                         ">
-                                                            <h2 class="text-gray-500 w-36">Sucursal</h2>
-                                                            <h3 class="text-gray-700 -ml-8">{{ true }}</h3>
+                                                            <h2 class="text-gray-500 w-[8em]">Sucursal</h2>
+                                                            <h3 class="text-gray-700">{{ true }}</h3>
                                                         </div>
                                                         <div class="flex flex-row mb-2
                                                         ">
-                                                            <h2 class="text-gray-500 w-36">Promotor</h2>
-                                                            <h3 class="text-gray-700 -ml-8">{{ true }}</h3>
+                                                            <h2 class="text-gray-500 w-[8em]">Promotor</h2>
+                                                            <h3 class="text-gray-700">{{ true }}</h3>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -269,14 +324,15 @@
 definePageMeta({
     layout: 'default'
 })
-import { ref, onUpdated } from 'vue';
+import { ref } from 'vue';
 
 import {
     TransitionRoot,
     TransitionChild,
     Dialog,
     DialogPanel,
-    TabGroup, TabList, Tab, TabPanels, TabPanel
+    TabGroup, TabList, Tab, TabPanels, TabPanel,
+    Menu, MenuButton, MenuItems, MenuItem
 } from '@headlessui/vue'
 
 const dataPercetage = [
@@ -293,8 +349,8 @@ const dataPercetage = [
         "secondarySubtitle": "sin cita"
     },
     {
-        "size": "w-[70%]",
-        "icon": "mdi:alpha-x-circle-outline",
+        "size": "w-full md:w-[70%]",
+        "icon": "heroicons:x-circle",
         "title": "No acepta ofertas",
         "showPercentage": true,
         "type": "info",
@@ -302,7 +358,7 @@ const dataPercetage = [
         "subtitle": "",
     },
     {
-        "size": "w-[70%]",
+        "size": "w-full md:w-[70%]",
         "icon": "mdi:file-document",
         "title": "Evaluación incompletada",
         "showPercentage": true,
@@ -311,7 +367,7 @@ const dataPercetage = [
         "subtitle": "",
     },
     {
-        "size": "w-[70%]",
+        "size": "w-full md:w-[70%]",
         "icon": "mdi:account-remove",
         "title": "No cumple con el perfil",
         "showPercentage": true,
@@ -322,17 +378,52 @@ const dataPercetage = [
     }
 ]
 
+const filterStatus = [
+    {
+        label: "Aprobada con cita",
+        color: "green"
+    },
+    {
+        label: "No acepta ofertas",
+        color: "blue"
+    },
+    {
+        label: "Evaluación incompleta",
+        color: "orange"
+    },
+    {
+        label: "No cumple con el perfil",
+        color: "red"
+    }
+];
+
+const filterPercentage = [
+    {
+        label: "100%",
+    },
+    {
+        label: "80%",
+    },
+    {
+        label: "60%",
+    },
+    {
+        label: "40%",
+    },
+    {
+        label: "20%",
+    },
+    {
+        label: "0%",
+    }
+]
+
 const isOpen = ref(false)
 
-function closeModal() {
+const closeModal = () => {
     isOpen.value = false
 }
-function openModal() {
+const openModal = () => {
     isOpen.value = true
 }
-
-onUpdated(() => {
-    console.log('El componente se ha actualizado');
-});
-
 </script>

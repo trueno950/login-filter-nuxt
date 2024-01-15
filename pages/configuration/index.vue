@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-14">
+    <div class="mt-14 bg-gray-50 p-8">
         configuration
     </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
     <div class="w-full">
-        <span class="text-sm text-gray-800 dark:text-white">Oferta comercial</span>
+        <span class="text-sm text-gray-600 dark:text-white">Oferta comercial</span>
         <div class="max-w-[10rem] flex items-center gap-x-1">
             <div v-for="(bar, index) in progressBars" :key="bar.id" :class="[bar.class, getBorderRadius(index)]"
                 :style="{ width: bar.width }" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>

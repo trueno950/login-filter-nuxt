@@ -1,8 +1,8 @@
 <template>
-    <div class="bg-white shadow-sm flex items-center fixed w-full top-0 z-10">
+    <div class="bg-white shadow-inner flex items-center fixed w-full top-0 z-10">
         <div class="container mx-auto flex items-center justify-between">
             <div>
-                <NuxtImg src="/logo.svg" />
+                <NuxtImg src="/logo-dimex.png" width="90" height="40"/>
             </div>
 
             <div class="flex items-center space-x-4">
