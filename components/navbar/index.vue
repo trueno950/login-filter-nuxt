@@ -2,7 +2,7 @@
     <div class="bg-white shadow-inner flex items-center fixed w-full top-0 z-10">
         <div class="container mx-auto flex items-center justify-between">
             <div>
-                <NuxtImg src="/logo-dimex.png" width="90" height="40" />
+                <NuxtImg src="/logoDimex.png" width="90" height="40" />
             </div>
             <div class="flex items-center space-x-4">
                 <NuxtLink to="/dashboard" class="my-link text-md">Dashboard</NuxtLink>
@@ -18,7 +18,7 @@
                         <NuxtImg src="/logo.svg" alt="Foto de perfil" class="object-cover w-full h-full" />
                     </div>
                     <div>
-                        <p class="text-gray-700 font-semibold">{{`${infoProfile.firstName} ${infoProfile.lastName}`}}</p>
+                        <p class="text-gray-700 font-semibold">{{`${infoProfile?.firstName} ${infoProfile?.lastName}`}}</p>
                         <p class="text-sm text-gray-500">Admin</p>
                     </div>
                 </div>
