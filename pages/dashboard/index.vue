@@ -1,8 +1,5 @@
 <template>
-    <!-- <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/gh/Loopple/loopple-public-assets@main/riva-dashboard-tailwind/riva-dashboard.css"> -->
-    <Navbar />
-    <div class="bg-gray-100">
+    <div class="bg-gray-100 mt-14">
         <div class="px-9 pt-5 flex flex-col items-stretch flex-wrap bg-transparent">
             <h1 class="flex flex-col items-start justify-center font-medium text-4xl text-dark">
                 <span class="mr-3 font-semibold text-dark">Dashboard</span>
@@ -84,14 +81,15 @@
                                         </td>
                                         <td class="py-2 flex">
                                             <div
-                                                :class="['rounded-md', 'flex', 'justify-center', 'p-1', 'h-7', 'text-green-500', 'bg-green-100', 'items-center', 'gap-2', 'px-2']">
+                                                class="rounded-md flex justify-center p-1 h-7 text-green-500 bg-green-50 items-center gap-2 px-2">
                                                 <Icon name="mdi:account-check-outline" />
                                                 <span class="text-xs">No acepta ofertas</span>
                                             </div>
                                         </td>
                                         <td class="py-2 ">
                                             <button
-                                                class="ml-auto relative text-secondary-dark bg-light-dark hover:text-primary flex items-center h-[25px] w-[25px] text-base font-medium leading-normal text-center align-middle cursor-pointer rounded-2xl transition-colors duration-200 ease-in-out shadow-none border-0 justify-center">
+                                                class="ml-auto relative text-secondary-dark bg-light-dark hover:text-primary flex items-center h-[25px] w-[25px] text-base font-medium leading-normal text-center align-middle cursor-pointer rounded-2xl transition-colors duration-200 ease-in-out shadow-none border-0 justify-center"
+                                                @click="openModal" ref="cancelButtonRef">
                                                 <span
                                                     class="flex items-center justify-center p-0 m-0 leading-none shrink-0 ">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -110,10 +108,177 @@
                 </div>
             </div>
         </div>
+        <TransitionRoot appear :show="isOpen" as="template">
+            <Dialog as="div" @close="closeModal" class="relative z-10">
+                <TransitionChild as="template" enter="duration-300 ease-out" enter-from="opacity-0" enter-to="opacity-100"
+                    leave="duration-200 ease-in" leave-from="opacity-100" leave-to="opacity-0">
+                    <div class="fixed inset-0 bg-black/25" />
+                </TransitionChild>
+
+                <div class="fixed inset-0 overflow-y-auto">
+                    <div class="flex min-h-full items-center justify-center p-4 text-center">
+                        <TransitionChild as="template" enter="duration-300 ease-out" enter-from="opacity-0 scale-95"
+                            enter-to="opacity-100 scale-100" leave="duration-200 ease-in" leave-from="opacity-100 scale-100"
+                            leave-to="opacity-0 scale-95">
+                            <DialogPanel
+                                class="w-full max-w-[75%] transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                                <TabGroup>
+                                    <TabList class="absolute left-0 top-0 flex gap-4 w-full bg-gray-50 items-center">
+                                        <Tab v-slot="{ selected }">
+                                            <div
+                                                :class="[selected ? 'bg-white text-green-500 font-semibold border-y-white' : 'bg-gray-50 text-gray-400', 'px-14 py-2']">
+                                                <p>General</p>
+                                            </div>
+                                        </Tab>
+
+                                        <Tab v-slot="{ selected }">
+                                            <div
+                                                :class="[selected ? 'bg-white text-green-500 font-semibold border-y-white' : 'bg-gray-50 text-gray-400', 'px-14 py-2']">
+                                                <p>Oferta comercial</p>
+                                            </div>
+                                        </Tab>
+                                    </TabList>
+                                    <TabPanels>
+                                        <TabPanel class="flex flex-col p-3 mt-4">
+                                            <div class="flex justify-end">
+                                                <span class="text-[0.6rem] text-green-600">Oferta comercial<span
+                                                        class="text-[0.6rem] text-gray-400"> | Cita
+                                                        agendada</span></span>
+                                            </div>
+                                            <div class="flex justify-between mb-4">
+                                                <div>
+                                                    <h1 class=" font-bold text-lg">Informacion personal</h1>
+                                                </div>
+                                                <div>
+                                                    <div
+                                                        class="rounded-md flex justify-center p-1 h-7 text-green-500 bg-green-50 items-center gap-2 px-2">
+                                                        <Icon name="mdi:account-check-outline" />
+                                                        <span class="text-xs">No acepta ofertas</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <section>
+                                                <div class="flex flex-row gap-20">
+                                                    <div>
+                                                        <div class="flex flex-row gap-4 mb-2
+                                                        ">
+                                                            <h2 class="text-gray-500 w-36">Nombre</h2>
+                                                            <h3 class="text-gray-700">María Eugenia Rodriguez Rendon</h3>
+                                                        </div>
+                                                        <div class="flex flex-row gap-4 mb-2
+                                                        ">
+                                                            <h2 class="text-gray-500 w-36">Fec nacimiento</h2>
+                                                            <h3 class="text-gray-700">{{ true }}</h3>
+                                                        </div>
+                                                        <div class="flex flex-row gap-4 mb-2
+                                                        ">
+                                                            <h2 class="text-gray-500 w-36">RFC</h2>
+                                                            <h3 class="text-gray-700">{{ true }}</h3>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="flex flex-row mb-2
+                                                        ">
+                                                            <h2 class="text-gray-500 w-36">Celular</h2>
+                                                            <h3 class="text-gray-700 -ml-8">+529911098469</h3>
+                                                        </div>
+                                                        <div class="flex flex-row mb-2
+                                                        ">
+                                                            <h2 class="text-gray-500 w-36">Correo</h2>
+                                                            <h3 class="text-gray-700 -ml-8">{{ true }}</h3>
+                                                        </div>
+                                                        <div class="flex flex-row mb-2
+                                                        ">
+                                                            <h2 class="text-gray-500 w-36">Dirección</h2>
+                                                            <h3 class="text-gray-700 -ml-8">{{ true }}</h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr
+                                                    class="my-6 h-0.5 border-t-0 bg-neutral-200 opacity-100 dark:opacity-50" />
+                                                <div class="flex flex-row gap-20">
+                                                    <div>
+                                                        <div class="flex flex-row gap-4 mb-2
+                                                        ">
+                                                            <h2 class="text-gray-500 w-36">Producto</h2>
+                                                            <h3 class="text-gray-700">María Eugenia Rodriguez Rendon</h3>
+                                                        </div>
+                                                        <div class="flex flex-row gap-4 mb-2
+                                                        ">
+                                                            <h2 class="text-gray-500 w-36">Sub Producto</h2>
+                                                            <h3 class="text-gray-700">{{ true }}</h3>
+                                                        </div>
+                                                        <div class="flex flex-row gap-4 mb-2
+                                                        ">
+                                                            <h2 class="text-gray-500 w-36">Tipo Nómina</h2>
+                                                            <h3 class="text-gray-700">{{ true }}</h3>
+                                                        </div>
+                                                        <div class="flex flex-row gap-4 mb-2
+                                                        ">
+                                                            <h2 class="text-gray-500 w-36">Operación</h2>
+                                                            <h3 class="text-gray-700">{{ true }}</h3>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="flex flex-row mb-2
+                                                        ">
+                                                            <h2 class="text-gray-500 w-36">Estado</h2>
+                                                            <h3 class="text-gray-700 -ml-8">+529911098469</h3>
+                                                        </div>
+                                                        <div class="flex flex-row mb-2
+                                                        ">
+                                                            <h2 class="text-gray-500 w-36">Banco</h2>
+                                                            <h3 class="text-gray-700 -ml-8">{{ true }}</h3>
+                                                        </div>
+                                                        <div class="flex flex-row mb-2
+                                                        ">
+                                                            <h2 class="text-gray-500 w-36">Sucursal</h2>
+                                                            <h3 class="text-gray-700 -ml-8">{{ true }}</h3>
+                                                        </div>
+                                                        <div class="flex flex-row mb-2
+                                                        ">
+                                                            <h2 class="text-gray-500 w-36">Promotor</h2>
+                                                            <h3 class="text-gray-700 -ml-8">{{ true }}</h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                            <div class="flex justify-end">
+                                                <button class="bg-green-500 rounded-md px-4 py-2 text-white"
+                                                    @click="closeModal">Cerrar</button>
+                                            </div>
+                                        </TabPanel>
+                                        <TabPanel class="flex p-16">
+                                            <div>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Qui, asperiores!
+                                                Porro corrupti, quaerat at aut repellat minima qui officiis expedita. Iste
+                                                iure, repellendus officia fugit voluptatem nesciunt pariatur repellat
+                                                doloremque!</div>
+                                        </TabPanel>
+                                    </TabPanels>
+                                </TabGroup>
+                            </DialogPanel>
+                        </TransitionChild>
+                    </div>
+                </div>
+            </Dialog>
+        </TransitionRoot>
     </div>
 </template>
 
 <script setup>
+definePageMeta({
+    layout: 'default'
+})
+import { ref, onUpdated } from 'vue';
+
+import {
+    TransitionRoot,
+    TransitionChild,
+    Dialog,
+    DialogPanel,
+    TabGroup, TabList, Tab, TabPanels, TabPanel
+} from '@headlessui/vue'
+
 const dataPercetage = [
     {
         "size": "w-full",
@@ -156,5 +321,18 @@ const dataPercetage = [
 
     }
 ]
+
+const isOpen = ref(false)
+
+function closeModal() {
+    isOpen.value = false
+}
+function openModal() {
+    isOpen.value = true
+}
+
+onUpdated(() => {
+    console.log('El componente se ha actualizado');
+});
 
 </script>

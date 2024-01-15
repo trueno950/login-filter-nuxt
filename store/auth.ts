@@ -60,6 +60,7 @@ export const useAuthStore = defineStore("auth", {
       const token = useCookie("token");
       this.authenticated = false;
       token.value = null;
+      location.reload();
     },
   },
 });

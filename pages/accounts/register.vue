@@ -33,6 +33,9 @@
 </template>
 
 <script setup>
+definePageMeta({
+    layout: false,
+});
 import { ref } from 'vue';
 const { registerAccount } = useAuthStore();
 const { loading } = storeToRefs(useAuthStore()); // make authenticated state reactive

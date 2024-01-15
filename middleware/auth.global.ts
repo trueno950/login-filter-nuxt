@@ -23,7 +23,7 @@ export default defineNuxtRouteMiddleware((to) => {
     to?.name !== "accounts-register" &&
     to?.name !== "accounts-reset"
   ) {
-    abortNavigation();
+    // abortNavigation();
     return navigateTo("/accounts/login");
   }
 });

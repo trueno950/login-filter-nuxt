@@ -28,7 +28,7 @@ export default {
 
             progressBars.value = Array.from({ length: greenBars }, (_, index) => ({
                 id: `green-${index}`,
-                class: 'w-full h-2.5 flex flex-col justify-center overflow-hidden bg-green-500 text-xs text-white text-center whitespace-nowrap transition duration-500 dark:bg-green-500',
+                class: 'w-full h-2.5 flex flex-col justify-center overflow-hidden bg-green-500 text-xs text-white text-center whitespace-nowrap transition duration-500 dark:bg-green-700',
                 width: '20%',
             })).concat(
                 Array.from({ length: grayBars }, (_, index) => ({
