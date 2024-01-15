@@ -1,4 +1,5 @@
 <template>
+    <Navbar />
     <div class="mt-14 bg-gray-50 p-8">
         configuration
     </div>
@@ -7,8 +8,5 @@
 <script setup>
 useHead({
     title: 'Configuration',
-})
-definePageMeta({
-    layout: 'default'
 })
 </script>

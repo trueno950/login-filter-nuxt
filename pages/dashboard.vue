@@ -1,4 +1,5 @@
 <template>
+    <Navbar />
     <div class="bg-gray-50 mt-14">
         <div class="px-9 pt-5 flex flex-col items-stretch flex-wrap bg-transparent">
             <h1 class="flex flex-col items-start justify-center font-medium text-4xl text-dark">
@@ -319,9 +320,6 @@
 <script setup>
 useHead({
     title: 'Dashboard',
-})
-definePageMeta({
-    layout: 'default'
 })
 import { ref } from 'vue';
 
