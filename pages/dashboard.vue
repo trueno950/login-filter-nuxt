@@ -6,8 +6,7 @@
                 <span class="mr-3 font-semibold text-dark">Dashboard</span>
             </h1>
             <h2 class="flex flex-row items-start text-lg font-semibold">
-                <span class="text-gray-500">Buenos días, <span class="font-semibold text-green-600">Juan
-                        Manuel</span></span>
+                <span class="text-gray-500">Buenos días, <span class="font-semibold text-green-600">{{ `${infoProfile?.firstName} ${infoProfile?.lastName}` }}</span></span>
             </h2>
         </div>
         <TabPeriod />
@@ -165,7 +164,7 @@ import {
 import { ref, watch, onMounted } from 'vue';
 import { debounce } from 'lodash';
 
-const { evaluations } = storeToRefs(useUserStore());
+const { evaluations, infoProfile } = storeToRefs(useUserStore());
 const { getEvaluations } = useUserStore();
 
 const dataPercetage = [
