@@ -28,7 +28,7 @@ export const useAuthStore = defineStore("auth", {
       this.loading = pending.value;
 
       if (data.value) {
-        const token = useCookie("token");
+        const token = useCookie("accessToken");
         token.value = data?.value?.token;
         this.authenticated = true;
       } else {
@@ -57,7 +57,7 @@ export const useAuthStore = defineStore("auth", {
       }
     },
     logoutUser() {
-      const token = useCookie("token");
+      const token = useCookie("accessToken");
       this.authenticated = false;
       token.value = null;
       location.reload();

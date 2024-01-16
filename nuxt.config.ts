@@ -22,5 +22,10 @@ export default defineNuxtConfig({
       // ... or scan all modules within given directory
       'composables/**'
     ]
-  }
+  },
+  components: [
+    { path: '~/components/dashboard', pathPrefix: false },
+    { path: '~/components/commons', pathPrefix: false },
+    { path: '~/components/navbar', prefix: 'navbar' },
+  ]
 });

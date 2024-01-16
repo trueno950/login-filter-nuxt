@@ -18,7 +18,8 @@
                         <NuxtImg src="/logo.svg" alt="Foto de perfil" class="object-cover w-full h-full" />
                     </div>
                     <div>
-                        <p class="text-gray-700 font-semibold">{{`${infoProfile?.firstName} ${infoProfile?.lastName}`}}</p>
+                        <p class="text-gray-700 font-semibold">{{ `${infoProfile?.firstName} ${infoProfile?.lastName}` }}
+                        </p>
                         <p class="text-sm text-gray-500">Admin</p>
                     </div>
                 </div>
@@ -56,9 +57,12 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 
 const { logoutUser } = useAuthStore();
 const useUser = useUserStore()
-const { infoProfile } = useUser
-const token = useCookie('token');
-await useUser.getInfoProfile({token: token.value});
+const { infoProfile } = storeToRefs(useUserStore());
+
+if (Object.keys(infoProfile.value).length === 0) {
+    const token = useCookie('accessToken');
+    await useUser.getInfoProfile({ token: token.value });
+}
 </script>
 
 

@@ -3,12 +3,15 @@ import { useAuthStore } from "~/stores/auth";
 
 export default defineNuxtRouteMiddleware((to) => {
   const { authenticated } = storeToRefs(useAuthStore()); // make authenticated state reactive
-  const token = useCookie("token"); // get token from cookies
+  const token = useCookie("accessToken"); // get token from cookies
 
   if (token.value) {
     // check if value exists
     // todo verify if token is valid, before updating the state
     authenticated.value = true; // update the state to authenticated
+  }
+  if (token.value && to?.name === undefined) {
+    return navigateTo("/dashboard");
   }
 
   // if token exists and url is /accounts/login redirect to homepage

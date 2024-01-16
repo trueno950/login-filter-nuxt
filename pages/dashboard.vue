@@ -10,20 +10,7 @@
                         Manuel</span></span>
             </h2>
         </div>
-        <div class="px-9 flex justify-end items-stretch flex-wrap pb-0 bg-transparent">
-            <div class="flex gap-2 items-center rounded-lg bg-white p-1 px-4 h-9">
-                <button
-                    class="text-xs font-semibold text-gray-600 mx-1 border-b-2 border-transparent focus:border-green-600">Todo</button>
-                <button
-                    class="text-xs font-semibold text-gray-600 mx-1 border-b-2 border-transparent focus:border-green-600">Hoy</button>
-                <button class="text-xs font-semibold text-dark-600 mx-1 border-b-2 border-green-600">Mes</button>
-                <button
-                    class="text-xs font-semibold text-gray-600 mx-1 border-b-2 border-transparent focus:border-green-600">Año</button>
-                <div class="flex flex-col items-center mx-1 text-gray-400 text-xl">
-                    <Icon name="mdi:dots-vertical" />
-                </div>
-            </div>
-        </div>
+        <TabPeriod />
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:flex md:justify-between px-8 pt-8 xl:gap-9">
             <template v-for="(item, index) in dataPercetage || []" :key="index">
                 <CardPercentage :size="item.size" :icon="item.icon" :title="item.title"
@@ -50,13 +37,13 @@
                                 </div>
                                 <input type="text" id="input-group-1"
                                     class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="Buscar">
+                                    placeholder="Buscar" v-model="filterPhoneNumber" @input="applyPhoneNumberFilter">
                             </div>
                         </div>
                     </div>
                     <div class="flex-auto block px-12">
                         <div class="overflow-x-auto">
-                            <table class="w-full my-0 align-middle text-dark border-neutral-200">
+                            <table class="w-full my-0 align-middle text-dark border-neutral-200" v-if="evaluations.length >= 1">
                                 <thead class="align-bottom border-b-2 py-2">
                                     <tr class="font-semibold text-gray-600 text-xs">
                                         <th class="min-w-[10%] pb-3">
@@ -82,7 +69,8 @@
                                             <p class="text-left">
                                                 Progreso
                                             <Menu>
-                                                <MenuButton class="focus:outline-none text-2xl text-gray-500" id="menu-progress">
+                                                <MenuButton class="focus:outline-none text-2xl text-gray-500"
+                                                    id="menu-progress">
                                                     <Icon name="mdi:chevron-down" />
                                                 </MenuButton>
                                                 <MenuItems
@@ -100,7 +88,8 @@
                                             <p class="text-left">
                                                 Estatus
                                             <Menu>
-                                                <MenuButton class="focus:outline-none text-2xl text-gray-500" id="menu-status">
+                                                <MenuButton class="focus:outline-none text-2xl text-gray-500"
+                                                    id="menu-status">
                                                     <Icon name="mdi:chevron-down" />
                                                 </MenuButton>
                                                 <MenuItems
@@ -121,33 +110,30 @@
                                         <th class="min-w-[5%] pb-3"></th>
                                     </tr>
                                 </thead>
-                                <tbody v-for="(item, index) in [0, 1, 2, 3, 4]" :key="index">
+                                <tbody v-for="(item, index) in evaluations" :key="index">
                                     <tr class="">
                                         <td class="py-3 ">
-                                            <span class="font-semibold text-gray-600 text-xs">05/07/2024</span>
+                                            <span class="font-semibold text-gray-600 text-xs">{{ item.date }}</span>
                                         </td>
                                         <td class="py-2 ">
-                                            <span class="font-semibold text-gray-600 text-xs">Joel Abdiel May Canche</span>
+                                            <span class="font-semibold text-gray-600 text-xs">{{ item.name }}</span>
                                         </td>
                                         <td class="py-2">
-                                            <span class="font-semibold text-gray-600 text-xs">+529911098469</span>
+                                            <span class="font-semibold text-gray-600 text-xs">{{ item.lada }}
+                                                {{ item.celphone }}</span>
                                         </td>
                                         <td class="text-start">
-                                            <ProgressBar :percentage="100" />
+                                            <ProgressBar :percentage="item.progress" />
                                         </td>
                                         <td class="py-2 flex">
-                                            <div
-                                                class="rounded-md flex justify-center p-1 h-7 text-green-500 bg-green-50 items-center gap-2 px-2">
-                                                <Icon name="mdi:account-check-outline" />
-                                                <span class="text-xs">No acepta ofertas</span>
-                                            </div>
+                                            <StatusBadge :status="item.status" />
                                         </td>
                                         <td class="py-2">
                                             <button class="ml-auto text-2xl text-gray-400" @click="openModal"
-                                                ref="cancelButtonRef">
+                                                v-if="item.status === 'aproved'" ref="cancelButtonRef">
                                                 <Icon name="heroicons:eye" />
                                             </button>
-                                            <button class="ml-auto text-2xl text-gray-400" @click="openModal"
+                                            <button class="ml-auto text-2xl text-gray-400" @click="openModal" v-else
                                                 ref="cancelButtonRef">
                                                 <Icon name="heroicons:pencil-square" />
                                             </button>
@@ -155,165 +141,17 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <div class="inline-flex w-full justify-center p-6" v-else>
+                                <h1 class="text-lg text-base-300 text-gray-400">
+                                    <span name="label-empty">Sin datos</span>
+                                </h1>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <TransitionRoot appear :show="isOpen" as="template">
-            <Dialog as="div" @close="closeModal" class="relative z-10">
-                <TransitionChild as="template" enter="duration-300 ease-out" enter-from="opacity-0" enter-to="opacity-100"
-                    leave="duration-200 ease-in" leave-from="opacity-100" leave-to="opacity-0">
-                    <div class="fixed inset-0 bg-black/25" />
-                </TransitionChild>
-
-                <div class="fixed inset-0 overflow-y-auto">
-                    <div class="flex min-h-full items-center justify-center p-4 text-center">
-                        <TransitionChild as="template" enter="duration-300 ease-out" enter-from="opacity-0 scale-95"
-                            enter-to="opacity-100 scale-100" leave="duration-200 ease-in" leave-from="opacity-100 scale-100"
-                            leave-to="opacity-0 scale-95">
-                            <DialogPanel
-                                class="w-full sm:w-[75%] transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                                <TabGroup>
-                                    <TabList class="absolute left-0 top-0 flex gap-4 w-full bg-gray-50 items-center">
-                                        <Tab v-slot="{ selected }">
-                                            <div
-                                                :class="[selected ? 'bg-white text-green-500 font-semibold border-y-white' : 'bg-gray-50 text-gray-400', 'px-14 py-2']">
-                                                <p>General</p>
-                                            </div>
-                                        </Tab>
-
-                                        <Tab v-slot="{ selected }">
-                                            <div
-                                                :class="[selected ? 'bg-white text-green-500 font-semibold border-y-white' : 'bg-gray-50 text-gray-400', 'px-14 py-2']">
-                                                <p>Oferta comercial</p>
-                                            </div>
-                                        </Tab>
-                                    </TabList>
-                                    <TabPanels>
-                                        <TabPanel class="flex flex-col p-3 mt-4">
-                                            <div class="flex justify-end">
-                                                <span class="text-[0.6rem] text-green-600">Oferta comercial<span
-                                                        class="text-[0.6rem] text-gray-400"> | Cita
-                                                        agendada</span></span>
-                                            </div>
-                                            <div class="flex justify-between mb-4">
-                                                <div>
-                                                    <h1 class=" font-bold text-lg">Informacion personal</h1>
-                                                </div>
-                                                <div>
-                                                    <div
-                                                        class="rounded-md flex justify-center p-1 h-7 text-green-500 bg-green-50 items-center gap-2 px-2">
-                                                        <Icon name="mdi:account-check-outline" />
-                                                        <span class="text-xs">No acepta ofertas</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <section>
-                                                <div class="grid grid-cols-1 gap-2 md:flex md:flex-row md:gap-20">
-                                                    <div>
-                                                        <div class="flex flex-row gap-4 mb-2
-                                                        ">
-                                                            <h2 class="text-gray-500 w-[8em]">Nombre</h2>
-                                                            <h3 class="text-gray-700">María Eugenia Rodriguez Rendon</h3>
-                                                        </div>
-                                                        <div class="flex flex-row gap-4 mb-2
-                                                        ">
-                                                            <h2 class="text-gray-500 w-[8em]">Fec nacimiento</h2>
-                                                            <h3 class="text-gray-700">{{ true }}</h3>
-                                                        </div>
-                                                        <div class="flex flex-row gap-4 mb-2
-                                                        ">
-                                                            <h2 class="text-gray-500 w-[8em]">RFC</h2>
-                                                            <h3 class="text-gray-700">{{ true }}</h3>
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <div class="flex flex-row mb-2
-                                                        ">
-                                                            <h2 class="text-gray-500 w-[8em]">Celular</h2>
-                                                            <h3 class="text-gray-700">+529911098469</h3>
-                                                        </div>
-                                                        <div class="flex flex-row mb-2
-                                                        ">
-                                                            <h2 class="text-gray-500 w-[8em]">Correo</h2>
-                                                            <h3 class="text-gray-700">{{ true }}</h3>
-                                                        </div>
-                                                        <div class="flex flex-row mb-2
-                                                        ">
-                                                            <h2 class="text-gray-500 w-[8em]">Dirección</h2>
-                                                            <h3 class="text-gray-700">{{ true }}</h3>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <hr
-                                                    class="my-6 h-0.5 border-t-0 bg-neutral-200 opacity-100 dark:opacity-50" />
-                                                <div class="grid grid-cols-1 gap-2 md:flex md:flex-row md:gap-20">
-                                                    <div>
-                                                        <div class="flex flex-row gap-4 mb-2
-                                                        ">
-                                                            <h2 class="text-gray-500 w-[8em]">Producto</h2>
-                                                            <h3 class="text-gray-700">María Eugenia Rodriguez Rendon</h3>
-                                                        </div>
-                                                        <div class="flex flex-row gap-4 mb-2
-                                                        ">
-                                                            <h2 class="text-gray-500 w-[8em]">Sub Producto</h2>
-                                                            <h3 class="text-gray-700">{{ true }}</h3>
-                                                        </div>
-                                                        <div class="flex flex-row gap-4 mb-2
-                                                        ">
-                                                            <h2 class="text-gray-500 w-[8em]">Tipo Nómina</h2>
-                                                            <h3 class="text-gray-700">{{ true }}</h3>
-                                                        </div>
-                                                        <div class="flex flex-row gap-4 mb-2
-                                                        ">
-                                                            <h2 class="text-gray-500 w-[8em]">Operación</h2>
-                                                            <h3 class="text-gray-700">{{ true }}</h3>
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <div class="flex flex-row mb-2
-                                                        ">
-                                                            <h2 class="text-gray-500 w-[8em]">Estado</h2>
-                                                            <h3 class="text-gray-700">+529911098469</h3>
-                                                        </div>
-                                                        <div class="flex flex-row mb-2
-                                                        ">
-                                                            <h2 class="text-gray-500 w-[8em]">Banco</h2>
-                                                            <h3 class="text-gray-700">{{ true }}</h3>
-                                                        </div>
-                                                        <div class="flex flex-row mb-2
-                                                        ">
-                                                            <h2 class="text-gray-500 w-[8em]">Sucursal</h2>
-                                                            <h3 class="text-gray-700">{{ true }}</h3>
-                                                        </div>
-                                                        <div class="flex flex-row mb-2
-                                                        ">
-                                                            <h2 class="text-gray-500 w-[8em]">Promotor</h2>
-                                                            <h3 class="text-gray-700">{{ true }}</h3>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </section>
-                                            <div class="flex justify-end">
-                                                <button class="bg-green-500 rounded-md px-4 py-2 text-white"
-                                                    @click="closeModal">Cerrar</button>
-                                            </div>
-                                        </TabPanel>
-                                        <TabPanel class="flex p-16">
-                                            <div>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Qui, asperiores!
-                                                Porro corrupti, quaerat at aut repellat minima qui officiis expedita. Iste
-                                                iure, repellendus officia fugit voluptatem nesciunt pariatur repellat
-                                                doloremque!</div>
-                                        </TabPanel>
-                                    </TabPanels>
-                                </TabGroup>
-                            </DialogPanel>
-                        </TransitionChild>
-                    </div>
-                </div>
-            </Dialog>
-        </TransitionRoot>
+        <ModalDetails :isOpen="isOpen" @close="isOpen = false" />
     </div>
 </template>
 
@@ -321,16 +159,14 @@
 useHead({
     title: 'Dashboard',
 })
-import { ref } from 'vue';
-
 import {
-    TransitionRoot,
-    TransitionChild,
-    Dialog,
-    DialogPanel,
-    TabGroup, TabList, Tab, TabPanels, TabPanel,
     Menu, MenuButton, MenuItems, MenuItem
 } from '@headlessui/vue'
+import { ref, watch, onMounted } from 'vue';
+import { debounce } from 'lodash';
+
+const { evaluations } = storeToRefs(useUserStore());
+const { getEvaluations } = useUserStore();
 
 const dataPercetage = [
     {
@@ -416,13 +252,27 @@ const filterPercentage = [
         label: "0%",
     }
 ]
-
+const filterPhoneNumber = ref("");
+const originalEvaluations = ref([]);
 const isOpen = ref(false)
 
-const closeModal = () => {
-    isOpen.value = false
-}
 const openModal = () => {
     isOpen.value = true
 }
+
+const applyPhoneNumberFilter = debounce(() => {
+    if (!Array.isArray(originalEvaluations.value)) {
+        originalEvaluations.value = [];
+    }
+
+    const filteredEvaluations = originalEvaluations.value.filter(item => item.celphone.includes(filterPhoneNumber.value));
+    evaluations.value = filteredEvaluations;
+}, 300);
+
+watch(filterPhoneNumber, applyPhoneNumberFilter);
+
+onMounted(async () => {
+    await getEvaluations();
+    originalEvaluations.value = [...evaluations.value];
+});
 </script>
