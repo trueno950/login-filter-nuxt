@@ -162,7 +162,7 @@ import {
     Menu, MenuButton, MenuItems, MenuItem
 } from '@headlessui/vue'
 import { ref, watch, onMounted } from 'vue';
-import { debounce } from 'lodash';
+import _ from 'lodash';
 
 const { evaluations, infoProfile } = storeToRefs(useUserStore());
 const { getEvaluations } = useUserStore();
@@ -259,7 +259,7 @@ const openModal = () => {
     isOpen.value = true
 }
 
-const applyPhoneNumberFilter = debounce(() => {
+const applyPhoneNumberFilter = _.debounce(() => {
     if (!Array.isArray(originalEvaluations.value)) {
         originalEvaluations.value = [];
     }
